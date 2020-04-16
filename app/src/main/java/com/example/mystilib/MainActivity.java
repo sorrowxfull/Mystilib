@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.mystilib.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,8 +26,13 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+<<<<<<< HEAD
     private static int SPLASH_TIME_OUT = 3000;
 
+=======
+    //String bookList[] = {"Harry Potter", "Le Seigneur des Anneaux", "Star Wars", "Donjons et Dragons"};
+    ListView simpleList;
+>>>>>>> 3ada62a3aa79139a893a40bca0f791b6bea95196
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,22 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        /*
+        ArrayAdapter<String> bookAdapter = new ArrayAdapter<String>(this, R.layout.fragment_gallery, R.id.book_name, bookList);
+        ListView bookList = new ListView(this);
+        //setContentView(bookList);
+        bookList.setAdapter(bookAdapter);
+        */
+
+        /*
+        simpleList = (ListView) findViewById(R.id.simpleListView);
+        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), bookList);
+        simpleList.setAdapter(customAdapter);
+        */
+
+
+
     }
 
     @Override
