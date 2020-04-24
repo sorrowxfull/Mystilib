@@ -33,7 +33,11 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.2.1'
     implementation 'androidx.navigation:navigation-ui:2.2.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+<<<<<<< HEAD
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+=======
+    implementation 'androidx.annotation:annotation:1.1.0'
+>>>>>>> be682f528df1d3c0add92e6a0622e778cc3c34b6
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
