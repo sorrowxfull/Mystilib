@@ -1,4 +1,4 @@
-{
+
   "project_info": {
     "project_number": "775599073073",
     "firebase_url": "https://mystilib.firebaseio.com",
@@ -14,14 +14,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "775599073073-01ebdfnnsk210nar6vln00ofs1tkb3dt.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.mystilib",
-            "certificate_hash": "2923396fc1df23b96f9406a52209e1919aa8dd79"
-          }
-        },
         {
           "client_id": "775599073073-8n11buebvehce06ug1k3ti84vj08ei28.apps.googleusercontent.com",
           "client_type": 3

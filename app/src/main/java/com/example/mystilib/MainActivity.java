@@ -1,19 +1,19 @@
 package com.example.mystilib;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.Menu;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
 import com.example.mystilib.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -29,11 +29,15 @@ public class MainActivity extends AppCompatActivity {
 
     //String bookList[] = {"Harry Potter", "Le Seigneur des Anneaux", "Star Wars", "Donjons et Dragons"};
     ListView simpleList;
+    ImageView imageView;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
+        imageView = (ImageView) findViewById(R.id.imageProfile);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,22 +61,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        /*
-        ArrayAdapter<String> bookAdapter = new ArrayAdapter<String>(this, R.layout.fragment_gallery, R.id.book_name, bookList);
-        ListView bookList = new ListView(this);
-        //setContentView(bookList);
-        bookList.setAdapter(bookAdapter);
-        */
-
-        /*
-        simpleList = (ListView) findViewById(R.id.simpleListView);
-        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), bookList);
-        simpleList.setAdapter(customAdapter);
-        */
-
-
-
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser()==null){
+            finish();
+            startActivity(new Intent (this, LoginActivity.class));
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,8 +86,9 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-    public void goToLoginActivity(View view) {
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        finish();
+        startActivity(new Intent(this,LoginActivity.class));
     }
 }
