@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.mystilib.ui.dialog.AddBookFragment;
+import com.example.mystilib.ui.home.HomeFragment;
 import com.example.mystilib.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,13 +28,9 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-<<<<<<< HEAD
     //String bookList[] = {"Harry Potter", "Le Seigneur des Anneaux", "Star Wars", "Donjons et Dragons"};
     ListView simpleList;
-=======
     private static int SPLASH_TIME_OUT = 3000;
-
->>>>>>> be682f528df1d3c0add92e6a0622e778cc3c34b6
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +53,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Add a book to your collection.>", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AddBookFragment dialog = new AddBookFragment();
+                dialog.show(getSupportFragmentManager(), "AddBook");
+
+                //String test = "test";
+                //Book newBook = new Book(test, "JDR");
+                //HomeFragment.AddBook(newBook);
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

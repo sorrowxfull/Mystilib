@@ -9,7 +9,8 @@
 
     <TextView
         android:id="@+id/book_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="Small Text"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -20,8 +21,10 @@
         android:id="@+id/indicator_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
         android:text="A lire"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/delete_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -30,6 +33,14 @@
         android:layout_height="wrap_content"
         android:text="Acheté"
         app:layout_constraintEnd_toStartOf="@+id/indicator_btn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="X"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
