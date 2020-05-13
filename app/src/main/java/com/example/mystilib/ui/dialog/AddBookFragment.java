@@ -42,25 +42,25 @@ public class AddBookFragment extends DialogFragment {
                         //En fonction du bouton check, on déduit le state et l'indicator du livre
                         RadioButton state = checkedButton(view, stateGroup);
                         switch(state.getText().toString()) {
-                            case "Acquis":
+                            case "Acquired":
                                 addBook.state = 0;
                                 break;
-                            case "Emprunté":
+                            case "Borroweed":
                                 addBook.state = 1;
                                 break;
-                            case "A acheter":
+                            case "To buy":
                                 addBook.state = 2;
                                 break;
                         }
                         RadioButton indicator = checkedButton(view, indicatorGroup);
                         switch(indicator.getText().toString()) {
-                            case "A lire":
+                            case "To read":
                                 addBook.indicator = 0;
                                 break;
-                            case "En cours":
+                            case "In progress":
                                 addBook.indicator = 1;
                                 break;
-                            case "Lu":
+                            case "Read":
                                 addBook.indicator = 2;
                                 break;
                         }
