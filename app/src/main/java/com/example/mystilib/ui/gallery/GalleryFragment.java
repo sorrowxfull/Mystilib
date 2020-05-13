@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class GalleryFragment extends Fragment {
 
     private GalleryViewModel galleryViewModel;
-    ArrayList<Book> bookList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

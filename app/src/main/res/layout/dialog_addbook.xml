@@ -41,19 +41,19 @@
             android:id="@+id/radio_acquired"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Acquis" />
+            android:text="Acquired" />
 
         <RadioButton
             android:id="@+id/radio_borrowed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Emprunté" />
+            android:text="Borrowed" />
 
         <RadioButton
             android:id="@+id/radio_to_buy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A acheter" />
+            android:text="To buy" />
     </RadioGroup>
 
     <RadioGroup
@@ -70,19 +70,19 @@
             android:id="@+id/radio_to_read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A lire" />
+            android:text="To read" />
 
         <RadioButton
             android:id="@+id/radio_in_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="En cours" />
+            android:text="In progress" />
 
         <RadioButton
             android:id="@+id/radio_read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lu" />
+            android:text="Read" />
     </RadioGroup>
 
     <RatingBar

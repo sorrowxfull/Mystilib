@@ -97,13 +97,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     public void UpdateState(Button stateBtn, int state) {
         switch (state) {
             case 0:
-                stateBtn.setText("Acquis");
+                stateBtn.setText("Acquired");
                 break;
             case 1:
-                stateBtn.setText("Emprunté");
+                stateBtn.setText("Borrowed");
                 break;
             case 2:
-                stateBtn.setText("A acheter");
+                stateBtn.setText("To buy");
                 break;
         }
     }
@@ -111,13 +111,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     public void UpdateIndicator(Button indicatorBtn, int indicator) {
         switch (indicator) {
             case 0:
-                indicatorBtn.setText("A lire");
+                indicatorBtn.setText("To read");
                 break;
             case 1:
-                indicatorBtn.setText("En cours");
+                indicatorBtn.setText("In progress");
                 break;
             case 2:
-                indicatorBtn.setText("Lu");
+                indicatorBtn.setText("Read");
                 break;
         }
     }
