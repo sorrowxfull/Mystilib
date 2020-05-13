@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.profile.ProfileFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/layoutHead"
+            android:layout_width="match_parent"
+            android:layout_height="188dp"
+            android:background="#5CC09F">
+
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="306dp"
+                android:layout_height="27dp"
+                android:layout_above="@+id/imageView"
+                android:layout_marginStart="21dp"
+                android:layout_marginLeft="21dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="28dp"
+                android:layout_toEndOf="@+id/progressbar_pic"
+                android:layout_toRightOf="@+id/progressbar_pic"
+                android:text="Tap on the image to choose a profile picture" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="139dp"
+                android:layout_marginLeft="139dp"
+                android:layout_marginBottom="25dp"
+                android:layout_toEndOf="@+id/progressbar_pic"
+                android:layout_toRightOf="@+id/progressbar_pic"
+                android:src="@drawable/ic_menu_camera" />
+
+            <EditText
+                android:id="@+id/DisplayName"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="22dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="75dp"
+                android:enabled="true"
+                android:gravity="center_horizontal"
+                android:hint="Enter Name"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@android:color/white"
+                tools:text="Your name" />
+
+            <ProgressBar
+                android:id="@+id/progressbar_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="510dp"
+            android:layout_height="211dp"
+            android:layout_below="@id/layoutHead"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+
+            <TextView
+                android:id="@+id/text_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:drawablePadding="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                tools:text="youremail@domain.com" />
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layoutHead"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="516dp"
+            android:layout_marginLeft="516dp"
+            android:layout_marginTop="26dp"
+            android:background="?colorPrimary"
+            android:text="Save Changes"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+    </RelativeLayout>
+
+</FrameLayout>

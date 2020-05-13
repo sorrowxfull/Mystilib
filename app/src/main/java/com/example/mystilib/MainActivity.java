@@ -1,13 +1,10 @@
 package com.example.mystilib;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
 import android.view.Menu;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.mystilib.ui.dialog.AddBookFragment;
@@ -16,23 +13,36 @@ import com.example.mystilib.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import com.bumptech.glide.Glide;
+import com.example.mystilib.ui.login.LoginActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    ListView simpleList;
+    ImageView imageView;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
+        imageView = (ImageView) findViewById(R.id.imageProfile);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -57,6 +67,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser()==null){
+            finish();
+            startActivity(new Intent (this, LoginActivity.class));
+        }
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -68,8 +88,19 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-    public void goToLoginActivity(View view) {
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
+
+    private void loadUserInformation() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user !=null) {
+            if (user.getPhotoUrl() != null) {
+                String photoUrl = user.getPhotoUrl().toString();
+                Glide.with(this).load(photoUrl).into(imageView);
+            }
+        }
+    }
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        finish();
+        startActivity(new Intent(this,LoginActivity.class));
     }
 }

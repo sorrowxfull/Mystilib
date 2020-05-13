@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "775599073073",
+    "firebase_url": "https://mystilib.firebaseio.com",
+    "project_id": "mystilib",
+    "storage_bucket": "mystilib.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775599073073:android:0eb20c4edd69fa5e9bf210",
+        "android_client_info": {
+          "package_name": "com.example.mystilib"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775599073073-01ebdfnnsk210nar6vln00ofs1tkb3dt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mystilib",
+            "certificate_hash": "2923396fc1df23b96f9406a52209e1919aa8dd79"
+          }
+        },
+        {
+          "client_id": "775599073073-8n11buebvehce06ug1k3ti84vj08ei28.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAod8Tvm4sC6V0BpNgOfvW-uLQIlTDf4dI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775599073073-8n11buebvehce06ug1k3ti84vj08ei28.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
