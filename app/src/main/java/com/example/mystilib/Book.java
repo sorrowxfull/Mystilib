@@ -6,7 +6,7 @@ public class Book {
     public String group; //Le groupe auquel appartient le livre
     public Integer state; //L'état, 0 = Acquis, 1 = Emprunté, 2 = A Acheter
     public Integer indicator; //L'indicateur, 0 = A lire, 1 = En cours, 2 = Lu
-    public Integer stars; //La note sur 5
+    public Float stars; //La note sur 5
     public String note; //Commentaire
 
     public String getName() {
@@ -25,7 +25,7 @@ public class Book {
         return indicator;
     }
 
-    public Integer getStars() {
+    public Float getStars() {
         return stars;
     }
 
@@ -49,7 +49,7 @@ public class Book {
         this.indicator = indicator;
     }
 
-    public void setStars(Integer stars) {
+    public void setStars(Float stars) {
         this.stars = stars;
     }
 
@@ -57,11 +57,11 @@ public class Book {
         this.note = note;
     }
 
-    public Book(String name, String group) {
+    public Book(String name, String group, int state, int indicator, float stars) {
         this.name = name;
         this.group = group;
-        this.state = 0;
-        this.indicator = 0;
-        this.stars = 0;
+        this.state = state;
+        this.indicator = indicator;
+        this.stars = stars;
     }
 }

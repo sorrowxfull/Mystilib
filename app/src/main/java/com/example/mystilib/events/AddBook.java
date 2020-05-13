@@ -5,5 +5,5 @@ public class AddBook {
     public String groupname;
     public int state;
     public int indicator;
-    public int stars;
+    public float stars;
 }

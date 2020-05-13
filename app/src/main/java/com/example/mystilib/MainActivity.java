@@ -28,43 +28,25 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    //String bookList[] = {"Harry Potter", "Le Seigneur des Anneaux", "Star Wars", "Donjons et Dragons"};
-    ListView simpleList;
-    private static int SPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // LOADING SCREEN
-        /*
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run(){
-                Intent homeIntent = new Intent(MainActivity.this, SplashActivity.class);
-                startActivity(homeIntent);
-                finish();
-            }
-        },SPLASH_TIME_OUT);*/
-        // --------------
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
+            //Quand on clique sur le bouton flottant
             @Override
             public void onClick(View view) {
+                //Déclenche le fragment AddBookFragment
                 AddBookFragment dialog = new AddBookFragment();
                 dialog.show(getSupportFragmentManager(), "AddBook");
-
-                //String test = "test";
-                //Book newBook = new Book(test, "JDR");
-                //HomeFragment.AddBook(newBook);
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setDrawerLayout(drawer)
@@ -72,27 +54,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        /*
-        ArrayAdapter<String> bookAdapter = new ArrayAdapter<String>(this, R.layout.fragment_gallery, R.id.book_name, bookList);
-        ListView bookList = new ListView(this);
-        //setContentView(bookList);
-        bookList.setAdapter(bookAdapter);
-        */
-
-        /*
-        simpleList = (ListView) findViewById(R.id.simpleListView);
-        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), bookList);
-        simpleList.setAdapter(customAdapter);
-        */
-
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

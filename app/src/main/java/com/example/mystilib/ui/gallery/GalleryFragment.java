@@ -32,7 +32,7 @@ public class GalleryFragment extends Fragment {
 
         int i = 0;
         for (String title : titleList) {
-            Book book = new Book(title, String.valueOf(i));
+            Book book = new Book(title, String.valueOf(i), 0, 0, 0);
             bookList.add(book);
             i++;
         }

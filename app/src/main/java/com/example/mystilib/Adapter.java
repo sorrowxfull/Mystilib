@@ -16,55 +16,66 @@ import com.example.mystilib.events.DeleteBook;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
-    private List<Book> mDataset;
+    private List<Book> mDataset; //La liste de livre
     private Context context;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView bookName;
-        public Button indicatorBtn;
-        public Button stateBtn;
-        public Button deleteBtn;
+        //Chaque livre affiche
+        public TextView bookName;   //son nom
+        public Button stateBtn;     //un bouton pour le state
+        public Button indicatorBtn; //un bouton pour l'indicator
+        public Button deleteBtn;    //un bouton pour delete
         public MyViewHolder(ConstraintLayout cl) {
             super(cl);
             bookName = cl.findViewById(R.id.book_name);
-            indicatorBtn = cl.findViewById(R.id.indicator_btn);
             stateBtn = cl.findViewById(R.id.state_btn);
+            indicatorBtn = cl.findViewById(R.id.indicator_btn);
             deleteBtn = cl.findViewById(R.id.delete_btn);
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     public Adapter(List<Book> myDataset, Context context) {
         this.mDataset = myDataset;
         this.context = context;
     }
 
-    // Create new views (invoked by the layout manager)
+    //La vue créée pour un item (livre)
     @Override
     public Adapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
-        // create a new view
         ConstraintLayout cl = (ConstraintLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent,
                 false);
         MyViewHolder vh = new MyViewHolder(cl);
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    //On affecte ici les actions des éléments d'un item
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         final Book book = mDataset.get(position);
         holder.bookName.setText(book.name);
+        UpdateState(holder.stateBtn, book.state);
+        UpdateIndicator(holder.indicatorBtn, book.indicator);
         holder.stateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Element " + book.name, Toast.LENGTH_SHORT).show();
+                book.state++;
+                if (book.state > 2) {
+                    book.state = 0;
+                }
+                Button stateBtn = view.findViewById(R.id.state_btn);
+                UpdateState(stateBtn, book.state);
+            }
+        });
+        holder.indicatorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                book.indicator++;
+                if (book.indicator > 2) {
+                    book.indicator = 0;
+                }
+                Button indicatorBtn = view.findViewById(R.id.indicator_btn);
+                UpdateIndicator(indicatorBtn, book.indicator);
             }
         });
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +88,37 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         });
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    //Retourne la taille de mDataset
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    public void UpdateState(Button stateBtn, int state) {
+        switch (state) {
+            case 0:
+                stateBtn.setText("Acquis");
+                break;
+            case 1:
+                stateBtn.setText("Emprunté");
+                break;
+            case 2:
+                stateBtn.setText("A acheter");
+                break;
+        }
+    }
+
+    public void UpdateIndicator(Button indicatorBtn, int indicator) {
+        switch (indicator) {
+            case 0:
+                indicatorBtn.setText("A lire");
+                break;
+            case 1:
+                indicatorBtn.setText("En cours");
+                break;
+            case 2:
+                indicatorBtn.setText("Lu");
+                break;
+        }
     }
 }

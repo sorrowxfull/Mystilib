@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Toast;
@@ -21,35 +22,65 @@ public class AddBookFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
         LayoutInflater inflater = requireActivity().getLayoutInflater();
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        View view = inflater.inflate(R.layout.dialog_addbook, null);
+        //Ici on récupère un lien vers les éléments de l'ajout d'un livre
+        final View view = inflater.inflate(R.layout.dialog_addbook, null);
         final EditText bookname = view.findViewById(R.id.book_name);
         final EditText groupname = view.findViewById(R.id.group_name);
-        final RadioGroup state = view.findViewById(R.id.radio_state);
-        final RadioGroup indicator = view.findViewById(R.id.radio_indicator);
+        final RadioGroup stateGroup = view.findViewById(R.id.radio_state);
+        final RadioGroup indicatorGroup = view.findViewById(R.id.radio_indicator);
         final RatingBar stars = view.findViewById(R.id.rating_stars);
         builder.setView(view);
         builder.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
+            //Lorsqu'il clique sur ADD
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        AddBook addBook = new AddBook();
+                        AddBook addBook = new AddBook(); //On stocke ici le bouquin qui sera ajouté
                         addBook.bookname = bookname.getText().toString();
                         addBook.groupname = groupname.getText().toString();
-                        addBook.state = state.getCheckedRadioButtonId();
-                        //Switch case sur l'état
+                        //En fonction du bouton check, on déduit le state et l'indicator du livre
+                        RadioButton state = checkedButton(view, stateGroup);
+                        switch(state.getText().toString()) {
+                            case "Acquis":
+                                addBook.state = 0;
+                                break;
+                            case "Emprunté":
+                                addBook.state = 1;
+                                break;
+                            case "A acheter":
+                                addBook.state = 2;
+                                break;
+                        }
+                        RadioButton indicator = checkedButton(view, indicatorGroup);
+                        switch(indicator.getText().toString()) {
+                            case "A lire":
+                                addBook.indicator = 0;
+                                break;
+                            case "En cours":
+                                addBook.indicator = 1;
+                                break;
+                            case "Lu":
+                                addBook.indicator = 2;
+                                break;
+                        }
+                        addBook.stars = stars.getRating();
+                        //On poste l'évenement addBook
                         MyBus.bus.post(addBook);
-                        Toast.makeText(getContext(), "Add " + bookname.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
-                })
+                }) //Lorsqu'il clique sur CANCEL
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         AddBookFragment.this.getDialog().cancel();
                     }
                 });
         return builder.create();
+    }
+
+    //Retourne le lien vers le bouton radio qui est checké dans le groupe radioGroup
+    public RadioButton checkedButton(View view, RadioGroup radioGroup) {
+        int radioId = radioGroup.getCheckedRadioButtonId();
+        RadioButton radio = view.findViewById(radioId);
+        return radio;
     }
 }
