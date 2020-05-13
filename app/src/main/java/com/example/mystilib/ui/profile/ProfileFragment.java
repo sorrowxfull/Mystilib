@@ -1,6 +1,5 @@
 package com.example.mystilib.ui.profile;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,12 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.example.mystilib.R;
@@ -37,32 +36,28 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
-
 public class ProfileFragment extends Fragment {
 
     private static final int CHOOSE_IMAGE = 101;
     ImageView imageView;
     EditText editText;
     Uri uriProfileImage;
+    TextView text_email;
     private ProgressDialog progressDialog;
 
     String profileImageUrl;
     FirebaseAuth mAuth;
-    private ProfileViewModel profileViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         editText = (EditText) root.findViewById(R.id.DisplayName);
-        imageView = (ImageView) root.findViewById(R.id.imageProfile);
-        Button save = (Button) imageView.findViewById(R.id.save);
+        text_email = (TextView) root.findViewById(R.id.text_email);
+        imageView = (ImageView) root.findViewById(R.id.imageView);
+
+        Button save = (Button) imageView.findViewById(R.id.button_save);
         progressDialog = new ProgressDialog(getActivity());
         mAuth = FirebaseAuth.getInstance();
-        // load User Information
-        loadUserInformation();
 
         imageView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -71,25 +66,31 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        root.findViewById(R.id.save).setOnClickListener(new View.OnClickListener(){
+        root.findViewById(R.id.button_save).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 saveUserInformation();
             }
         });
+        // load User Information
+        loadUserInformation();
         return root;
     }
 
     private void loadUserInformation() {
         FirebaseUser user = mAuth.getCurrentUser();
+
         if(user !=null) {
             if (user.getPhotoUrl() != null) {
-                Glide.with(this).load(user.getPhotoUrl().toString()).into(imageView);
                 String photoUrl = user.getPhotoUrl().toString();
-            }/*
+                Glide.with(this).load(photoUrl).into(imageView);
+            }
             if (user.getDisplayName() != null) {
                 editText.setText(user.getDisplayName());
-            }*/
+            }
+            if (user.getEmail() != null) {
+                text_email.setText(user.getEmail());
+            }
         }
     }
 
@@ -102,15 +103,43 @@ public class ProfileFragment extends Fragment {
     }
 
     private void saveUserInformation() {
-        String displayName = "UserNumber 1 !"; // editText.getText().toString();/*
+        String displayName = editText.getText().toString().trim();
         if(displayName.isEmpty()){
             editText.setError("Name required");
             editText.requestFocus();
             return;
         }
         FirebaseUser user = mAuth.getCurrentUser();
+        // Update image && || displayname
         if(user!=null && profileImageUrl != null){
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(displayName).setPhotoUri(Uri.parse(profileImageUrl)).build();
+            user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getActivity(),"Profile updated",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+        // Update only displayname
+        else if(user!=null && user.getPhotoUrl() != null){
+            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(displayName).setPhotoUri(user.getPhotoUrl()).build();
+            user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getActivity(),"Profile updated",Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(getActivity(),"Fail to updated",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+        // First update -> upload a default profile image
+        else{
+            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(displayName).setPhotoUri(Uri.parse("http://www.eliterawtalent.com/wp-content/uploads/2018/10/default-profile-picture-gmail-2.png")).build();
             user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -129,7 +158,7 @@ public class ProfileFragment extends Fragment {
         if(requestCode == CHOOSE_IMAGE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null){
             uriProfileImage = data.getData();
             try {
-                @SuppressLint("RestrictedApi") Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uriProfileImage);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uriProfileImage);
                 imageView.setImageBitmap(bitmap);
                 uploadImageToFireBaseStorage();
             } catch (IOException e) {
@@ -139,17 +168,25 @@ public class ProfileFragment extends Fragment {
     }
 
     private void uploadImageToFireBaseStorage() {
-        // create ref for firebase storage to store to upload the profile pic
-        final StorageReference profileImageRef = FirebaseStorage.getInstance().getReference("profilepics/"+System.currentTimeMillis()+".jpg");
+        // create ref for firebase storage to store the profile pic
+        FirebaseUser user = mAuth.getCurrentUser();
+        // Path of the image location
+        final StorageReference profileImageRef = FirebaseStorage.getInstance().getReference("profilepics/"+user.getUid()+".jpg");
         if(uriProfileImage != null){
             progressDialog.setMessage("Uploading picture please wait...");
             progressDialog.show();
             profileImageRef.putFile(uriProfileImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    profileImageUrl = taskSnapshot.getStorage().getDownloadUrl().toString();
-                    Toast.makeText(getActivity(),"Profile picture uploaded",Toast.LENGTH_LONG).show();
+                    profileImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            progressDialog.dismiss();
+                            Uri downloadUrl = uri;
+                            profileImageUrl = downloadUrl.toString();
+                            Toast.makeText(getActivity(),"Profile picture uploaded",Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
