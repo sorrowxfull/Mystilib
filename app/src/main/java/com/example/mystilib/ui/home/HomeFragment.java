@@ -57,6 +57,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        books.removeAll(books);
         readFile(file);
     }
 
@@ -79,7 +80,6 @@ public class HomeFragment extends Fragment {
     public void onStop() {
         super.onStop();
         writeFile(file);
-        books.removeAll(books);
     }
 
     //Ecriture du fichier de sauvegarde
